@@ -8,7 +8,7 @@ import {
   yearFromReleaseDate,
 } from "./utils.js";
 
-const album = (title, artist = "Someone", released = "1959-01-01") => ({
+const album = (title, artist = "Someone", released = "2020-01-01") => ({
   id: title,
   title,
   artist,
@@ -17,21 +17,21 @@ const album = (title, artist = "Someone", released = "1959-01-01") => ({
 
 describe("truncate", () => {
   it("leaves short text alone", () => {
-    expect(truncate("Time Out", 18)).toBe("Time Out");
+    expect(truncate("Isles", 18)).toBe("Isles");
   });
 
   it("shortens text that is longer than the limit", () => {
-    expect(truncate("The Shape of Jazz to Come", 18)).toBe("The Shape of Jazz…");
+    expect(truncate("Cold Enough for Snow", 18)).toBe("Cold Enough for S…");
   });
 
   it("never returns more characters than the limit", () => {
-    expect(truncate("The Shape of Jazz to Come", 18)).toHaveLength(18);
+    expect(truncate("Cold Enough for Snow", 18)).toHaveLength(18);
   });
 
   it("leaves text that is exactly the limit alone", () => {
-    // "Saxophone Colossus" is 18 characters, so it already fits and must not
+    // "When Will We Land?" is 18 characters, so it already fits and must not
     // be shortened.
-    expect(truncate("Saxophone Colossus", 18)).toBe("Saxophone Colossus");
+    expect(truncate("When Will We Land?", 18)).toBe("When Will We Land?");
   });
 
   it("returns an empty string for non-string input", () => {
@@ -41,17 +41,17 @@ describe("truncate", () => {
 
 describe("yearFromReleaseDate", () => {
   it("keeps only the year", () => {
-    expect(yearFromReleaseDate("1959-08-17")).toBe("1959");
+    expect(yearFromReleaseDate("2017-09-08")).toBe("2017");
   });
 });
 
 describe("formatDuration", () => {
   it("formats a sub-hour running time in minutes", () => {
-    expect(formatDuration(2793)).toBe("46 min");
+    expect(formatDuration(2760)).toBe("46 min");
   });
 
   it("formats a longer running time with hours", () => {
-    expect(formatDuration(5946)).toBe("1 hr 39 min");
+    expect(formatDuration(3720)).toBe("1 hr 2 min");
   });
 });
 
@@ -70,24 +70,24 @@ describe("pickFeatured", () => {
 
 describe("filterAlbums", () => {
   it("returns everything for an empty query", () => {
-    const albums = [album("Blue Train"), album("Time Out")];
+    const albums = [album("Isles"), album("Cascade")];
     expect(filterAlbums(albums, "")).toHaveLength(2);
   });
 
   it("matches on title", () => {
-    const albums = [album("Blue Train"), album("Time Out")];
-    expect(filterAlbums(albums, "Blue")).toEqual([albums[0]]);
+    const albums = [album("Isles"), album("Cascade")];
+    expect(filterAlbums(albums, "Isles")).toEqual([albums[0]]);
   });
 
   it("matches on artist", () => {
-    const albums = [album("Blue Train", "John Coltrane"), album("Time Out", "Dave Brubeck")];
-    expect(filterAlbums(albums, "Coltrane")).toEqual([albums[0]]);
+    const albums = [album("Isles", "Bicep"), album("Cascade", "Floating Points")];
+    expect(filterAlbums(albums, "Bicep")).toEqual([albums[0]]);
   });
 });
 
 describe("byReleaseDate", () => {
   it("sorts oldest first", () => {
-    const albums = [album("New", "x", "1970-01-01"), album("Old", "x", "1956-01-01")];
+    const albums = [album("New", "x", "2024-01-01"), album("Old", "x", "2017-01-01")];
     expect(albums.slice().sort(byReleaseDate).map((a) => a.title)).toEqual(["Old", "New"]);
   });
 });

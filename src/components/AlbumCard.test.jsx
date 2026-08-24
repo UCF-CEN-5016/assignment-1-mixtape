@@ -4,14 +4,14 @@ import userEvent from "@testing-library/user-event";
 import { AlbumCard } from "./AlbumCard.jsx";
 
 const album = {
-  id: 4,
-  title: "Saxophone Colossus",
-  artist: "Sonny Rollins",
-  released: "1956-06-22",
-  genre: "Hard Bop",
-  durationSeconds: 2340,
-  colorFrom: "#000",
-  colorTo: "#fff",
+  id: 3,
+  title: "When Will We Land?",
+  artist: "Barry Can't Swim",
+  released: "2023-10-20",
+  genre: "Chill House",
+  durationSeconds: 2820,
+  colorFrom: "#123f3a",
+  colorTo: "#3fa88f",
   blurb: "…",
 };
 
@@ -30,13 +30,15 @@ const renderCard = (overrides = {}) => {
 describe("AlbumCard", () => {
   it("shows the artist and release year", () => {
     renderCard();
-    expect(screen.getByText(/Sonny Rollins/)).toBeInTheDocument();
-    expect(screen.getByText(/1956/)).toBeInTheDocument();
+    expect(screen.getByText(/Barry Can't Swim/)).toBeInTheDocument();
+    expect(screen.getByText(/2023/)).toBeInTheDocument();
   });
 
   it("shows an 18 character title in full, with no ellipsis", () => {
     renderCard();
-    expect(screen.getByRole("heading", { name: "Saxophone Colossus" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "When Will We Land?" }),
+    ).toBeInTheDocument();
   });
 
   it("reports the album when opened", async () => {
@@ -50,6 +52,6 @@ describe("AlbumCard", () => {
     const user = userEvent.setup();
     const { onToggleFavorite } = renderCard();
     await user.click(screen.getByRole("button", { name: /add .* to favorites/i }));
-    expect(onToggleFavorite).toHaveBeenCalledWith(4);
+    expect(onToggleFavorite).toHaveBeenCalledWith(3);
   });
 });

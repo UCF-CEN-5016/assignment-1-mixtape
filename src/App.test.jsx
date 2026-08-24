@@ -14,27 +14,27 @@ describe("Mixtape", () => {
     expect(screen.getByText(/12 albums/)).toBeInTheDocument();
   });
 
-  it("finds albums when the query matches the title's capitalisation", async () => {
+  it("finds albums when the query matches the artist's capitalisation", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.type(screen.getByLabelText(/search albums/i), "Blue");
+    await user.type(screen.getByLabelText(/search albums/i), "ODESZA");
     expect(screen.getByText(/2 albums/)).toBeInTheDocument();
   });
 
   it("finds albums regardless of the capitalisation typed", async () => {
     const user = userEvent.setup();
     render(<App />);
-    // "Kind of Blue" and "Blue Train" both contain "blue"; searching should not
-    // care that the user typed it in lower case.
-    await user.type(screen.getByLabelText(/search albums/i), "blue");
+    // ODESZA style their name in capitals, so typing it in lower case is the
+    // natural thing to do. Search should not care either way.
+    await user.type(screen.getByLabelText(/search albums/i), "odesza");
     expect(screen.getByText(/2 albums/)).toBeInTheDocument();
   });
 
   it("matches an artist typed in lower case", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.type(screen.getByLabelText(/search albums/i), "coltrane");
-    expect(screen.getByText(/4 albums/)).toBeInTheDocument();
+    await user.type(screen.getByLabelText(/search albums/i), "maribou");
+    expect(screen.getByText(/2 albums/)).toBeInTheDocument();
   });
 
   it("shows an empty state when nothing matches", async () => {
