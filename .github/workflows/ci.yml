@@ -6,6 +6,14 @@ on:
   pull_request:
   workflow_dispatch:
 
+# This workflow only reads the checkout and runs lint and tests. It never writes
+# to the repository, so it needs no write scope. Spelling that out matters here:
+# this repo is a template, so every student repository generated from it
+# inherits this workflow, and an unset permissions block would leave each of
+# them running CI with the default token scope.
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
